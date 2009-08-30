@@ -21,6 +21,7 @@ no_index:
 requires:
   Moose: 0.89
   MooseX::AttributeHelpers: 0.21
+  MooseX::Storage: 0.21
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03
