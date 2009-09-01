@@ -1,7 +1,7 @@
 package Data::Verifier;
 use Moose;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use Data::Verifier::Filters;
 use Data::Verifier::Results;
@@ -15,7 +15,7 @@ has 'filters' => (
 
 has 'profile' => (
     is => 'ro',
-    isa => 'HashRef',
+    isa => 'HashRef[HashRef]',
     required => 1
 );
 
@@ -52,9 +52,6 @@ sub verify {
             $results->set_missing($key, 1) unless defined($val);
         }
 
-        # Set the value
-        $results->set_value($key, $val);
-
         # No sense in continuing if the value isn't defined.
         next unless defined($val);
 
@@ -62,14 +59,12 @@ sub verify {
         # Check min length
         if($fprof->{min_length} && length($val) < $fprof->{min_length}) {
             $results->set_invalid($key, 1);
-            $results->set_value($key, undef);
             next; # stop processing!
         }
 
         # Check max length
         if($fprof->{max_length} && length($val) > $fprof->{max_length}) {
             $results->set_invalid($key, 1);
-            $results->set_value($key, undef);
             next; # stop processing!
         }
 
@@ -80,14 +75,35 @@ sub verify {
 
             if($fprof->{coerce}) {
                 $val = $cons->coerce($val);
-                $results->set_value($key, $val);
             }
 
             unless($cons->check($val)) {
                 $results->set_invalid($key, 1);
-                $results->set_value($key, undef);
+                next; # stop processing!
             }
         }
+
+        # check for dependents
+        my $dependent = $fprof->{dependent};
+        if($dependent) {
+            # Create a new verifier for use withe the dependents
+            my $dep_verifier = Data::Verifier->new(
+                filters => $self->filters,
+                profile => $dependent
+            );
+            my $dep_results = $dep_verifier->verify($params);
+            # Merge the dependent's results with the parent one
+            $results->merge($dep_results);
+
+            # If the dependent isn't valid, then this field isn't either
+            unless($dep_results->success) {
+                $results->set_invalid($key, 1);
+                next; # stop processing!
+            }
+        }
+
+        # Set the value
+        $results->set_value($key, $val);
     }
 
     return $results;
@@ -189,6 +205,28 @@ are:
 
 If true then the value will be given an opportunity to coerce via Moose's
 type system.
+
+=item dependent
+
+Allows a set of fields to be specifid as dependents of this one.  The argument
+for this key is a full-fledged profile as you would give to the profile key:
+
+  my $verifier = Data::Verifier->new(
+      profile => {
+          password    => {
+              dependent => {
+                  password2 => {
+                      required => 1,
+                  }
+              }
+          }
+      }
+  );
+
+In the above example C<password> is not required.  If it is provided then
+password2 must also be provided.  If any depedents of a field are missing or
+invalid then that field is B<invalid>.  In our example if password is provided
+and password2 is missing then password will be invalid.
 
 =item filters
 
