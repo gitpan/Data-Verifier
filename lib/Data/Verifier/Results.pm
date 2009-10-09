@@ -5,64 +5,96 @@ use MooseX::Storage;
 
 with Storage(format => 'JSON', io => 'File');
 
-has '_invalids' => (
+has 'fields' => (
     metaclass => 'Collection::Hash',
     is => 'rw',
     isa => 'HashRef',
     default => sub { {} },
     provides => {
-        count   => 'invalid_count',
-        exists  => 'is_invalid',
-        keys    => 'invalids',
-        set     => 'set_invalid',
+        get     => 'get_field',
+        set     => 'set_field'
     }
 );
 
-has '_missings' => (
-    metaclass => 'Collection::Hash',
-    is => 'rw',
-    isa => 'HashRef',
-    default => sub { {} },
-    provides => {
-        count   => 'missing_count',
-        exists  => 'is_missing',
-        keys    => 'missings',
-        set     => 'set_missing',
-    }
-);
+sub get_original_value {
+    my ($self, $key) = @_;
 
-has '_values' => (
-    metaclass => 'Collection::Hash',
-    is => 'rw',
-    isa => 'HashRef',
-    default => sub { {} },
-    provides => {
-        count   => 'value_count',
-        delete  => 'delete_value',
-        exists  => 'is_valid',
-        get     => 'get_value',
-        keys    => 'values',
-        set     => 'set_value',
-    }
-);
+    my $f = $self->get_field($key);
+    return undef unless defined($f);
+    return $f->original_value;
+}
 
-__PACKAGE__->meta->add_method('valids' => __PACKAGE__->can('values'));
-__PACKAGE__->meta->add_method('valid_count' => __PACKAGE__->can('value_count'));
+sub get_value {
+    my ($self, $key) = @_;
+
+    my $f = $self->get_field($key);
+    return undef unless defined($f);
+    return $f->value;
+}
+
+sub is_invalid {
+    my ($self, $field) = @_;
+
+    my $f = $self->get_field($field);
+
+    return 0 unless defined($f);
+    return $f->valid ? 0 : 1;
+}
+
+sub is_missing {
+    my ($self, $field) = @_;
+
+    my $f = $self->get_field($field);
+
+    return 1 unless defined($f);
+    return 0;
+}
+
+sub is_valid {
+    my ($self, $field) = @_;
+
+    my $f = $self->get_field($field);
+
+    return 0 unless defined($f);
+    return $f->valid ? 1 : 0;
+}
 
 sub merge {
     my ($self, $other) = @_;
 
-    foreach my $i ($other->invalids) {
-        $self->set_invalid($i, 1);
+    foreach my $f (keys %{ $other->fields }) {
+        $self->set_field($f, $other->get_field($f));
     }
+}
 
-    foreach my $m ($other->missings) {
-        $self->set_missing($m, 1);
-    }
+sub invalid_count {
+    my ($self) = @_;
 
-    foreach my $k ($other->valids) {
-        $self->set_value($k, $other->get_value($k));
-    }
+    return scalar($self->invalids);
+}
+
+sub invalids {
+    my ($self) = @_;
+
+    return grep(
+        { my $field = $self->get_field($_); defined($field) && !$field->valid; }
+        keys %{ $self->fields }
+    );
+}
+
+sub missing_count {
+    my ($self) = @_;
+
+    return scalar($self->missings);
+}
+
+sub missings {
+    my ($self) = @_;
+
+    return grep(
+        { my $field = $self->get_field($_); !defined($field) }
+        keys %{ $self->fields }
+    );
 }
 
 sub success {
@@ -73,6 +105,21 @@ sub success {
     }
 
     return 1;
+}
+
+sub valids {
+    my ($self) = @_;
+
+    return grep(
+        { my $field = $self->get_field($_); defined($field) && $field->valid; }
+        keys %{ $self->fields }
+    );
+}
+
+sub valid_count {
+    my ($self) = @_;
+
+    return scalar($self->valids);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -141,6 +188,10 @@ the values that remain after verification.
 
 Deletes the specified value from the results.
 
+=head2 get_original_value ($name)
+
+Get the original value for the specified field.
+
 =head2 get_value ($name)
 
 Returns the value for the specified field.  The value may be different from
@@ -187,6 +238,26 @@ Returns a list of missing field names.
 =head2 missing_count
 
 Returns the count of missing fields in this result.
+
+=head1 FIELDS
+
+=head2 get_field ($name)
+
+Gets the field object, if it exists, for the name provided.
+
+=head2 set_field ($name)
+
+Sets the field object (you shouldn't be doing this directly) for the name
+provided.
+
+=head1 SERIALIZATION
+
+Data::Verifier uses MooseX::Storage to allow quick and easy serialization.
+So a quick call to C<freeze> will serialize this object into JSON and C<thaw>
+will inflate it.  The only caveat is that we don't serialize the value
+attribute.  Since coercion allows you to make the result any type you want,
+it can't reliably be serialized.  Use original value if you are serializing
+Result objects and using them to refill forms or something.
 
 =head1 AUTHOR
 

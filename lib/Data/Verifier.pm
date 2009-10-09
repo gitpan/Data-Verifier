@@ -1,11 +1,13 @@
 package Data::Verifier;
 use Moose;
 
-our $VERSION = '0.08';
+our $VERSION = '0.20';
 
+use Data::Verifier::Field;
 use Data::Verifier::Filters;
 use Data::Verifier::Results;
 use Moose::Util::TypeConstraints;
+use Try::Tiny;
 
 has 'filters' => (
     is => 'ro',
@@ -57,9 +59,15 @@ sub verify {
             $val = undef;
         }
 
-        # If the param is required, verify that it's there
-        if($fprof->{required}) {
-            $results->set_missing($key, 1) unless defined($val);
+        my $field = Data::Verifier::Field->new(
+            original_value => $val
+        );
+
+        if($fprof->{required} && !defined($val)) {
+            # Set required fields to undef, as they are missing
+            $results->set_field($key, undef);
+        } else {
+            $results->set_field($key, $field);
         }
 
         # No sense in continuing if the value isn't defined.
@@ -67,13 +75,15 @@ sub verify {
 
         # Check min length
         if($fprof->{min_length} && length($val) < $fprof->{min_length}) {
-            $results->set_invalid($key, 1);
+            $field->reason('min_length');
+            $field->valid(0);
             next; # stop processing!
         }
 
         # Check max length
         if($fprof->{max_length} && length($val) > $fprof->{max_length}) {
-            $results->set_invalid($key, 1);
+            $field->reason('max_length');
+            $field->valid(0);
             next; # stop processing!
         }
 
@@ -88,8 +98,11 @@ sub verify {
             elsif(my $coercion = $fprof->{coercion}) {
                 $val = $coercion->coerce($val);
             }
+
             unless($cons->check($val)) {
-                $results->set_invalid($key, 1);
+                $field->reason('type_constraint');
+                $field->valid(0);
+                $field->clear_value;
                 next; # stop processing!
             }
         }
@@ -110,7 +123,9 @@ sub verify {
 
             # If the dependent isn't valid, then this field isn't either
             unless($dep_results->success) {
-                $results->set_invalid($key, 1);
+                $field->reason('dependent');
+                $field->valid(0);
+                $field->clear_value;
                 next; # stop processing!
             }
         }
@@ -121,21 +136,30 @@ sub verify {
         }
 
         # Set the value
-        $results->set_value($key, $val);
+        $field->value($val);
+        $field->valid(1);
     }
 
     # If we have any post checks, do them.
     if(scalar(@post_checks)) {
         foreach my $key (@post_checks) {
             my $fprof = $profile->{$key};
+            my $field = $results->get_field($key);
 
             # Execute the post_check...
-            if(defined($fprof->{post_check}) && $fprof->{post_check}) {
-                unless($fprof->{post_check}->($results)) {
-                    # If that returned false, then this field is invalid!
-                    $results->delete_value($key);
-                    $results->set_invalid($key, 1);
-                    next;
+            my $pc = $fprof->{post_check};
+            if(defined($pc) && $pc) {
+                try {
+                    unless($results->$pc()) {
+                        # If that returned false, then this field is invalid!
+                        $field->clear_value;
+                        $field->reason('post_check') unless $field->has_reason;
+                        $field->valid(0);
+                    }
+                } catch {
+                    $field->reason($_);
+                    $field->clear_value;
+                    $field->valid(0);
                 }
             }
         }
@@ -206,6 +230,7 @@ original idea) by leveraging the power of Moose's type constraint system.
     $results->is_missing('name'); # no
     $results->is_missing('sign'); # yes
 
+    $results->get_original_value('name'); # Unchanged, original value
     $results->get_value('name'); # Filtered, valid value
     $results->get_value('age');  # undefined, as it's invalid
 
@@ -339,6 +364,10 @@ for C<email> but true for C<email2>, since nothing specifically invalidated it.
 In this example you should rely on the C<email> field, as C<email2> carries no
 significance but to confirm C<email>.
 
+B<Note about post_check and exceptions>: If have a more complex post_check
+that could fail in multiple ways, you can C<die> in your post_check coderef
+and the exception will be stored in the fields C<reason> attribute.
+
 =item B<required>
 
 Determines if this field is required for verification.
@@ -347,6 +376,47 @@ Determines if this field is required for verification.
 
 The name of the Moose type constraint to use with verifying this field's
 value.
+
+=back
+
+=head1 EXECUTION ORDER
+
+It may be important to understand the order in which the various steps of
+verification are performed:
+
+=over 4
+
+=item Global Filters
+
+Any global filters in the profile are executed.
+
+=item Per-Field Filters
+
+Any per-field filters are executed.
+
+=item Empty String Check
+
+If the value of the field is an empty string then it is changed to an undef.
+
+=item Required Check
+
+The parameter must now be defined if it is set as required.
+
+=item Length Check
+
+Minimum then maximum length is checked.
+
+=item Type Check (w/Coercion)
+
+At this point the type will be checked after an optional coercion.
+
+=item Depedency Checks
+
+If this field has dependents then those will not be processed.
+
+=item Post Check
+
+If the field has a post check it will now be executed.
 
 =back
 

@@ -22,6 +22,7 @@ requires:
   Moose: 0.89
   MooseX::AttributeHelpers: 0.21
   MooseX::Storage: 0.21
+  Try::Tiny: 0.02
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.08
+version: 0.20
