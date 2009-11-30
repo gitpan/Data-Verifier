@@ -1,7 +1,7 @@
 package Data::Verifier;
 use Moose;
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 use Data::Verifier::Field;
 use Data::Verifier::Filters;
@@ -244,6 +244,11 @@ Data::Verifier firstly intends to leverage Moose's type constraint system,
 which is significantly more powerful than anything I could create for the
 purposes of this module.  Secondly it aims to keep a fairly simple interface
 by leveraging the aforementioned type system to keep options to a minumum.
+
+=head1 SERIALIZATION
+
+Consult the documentation for L<Data::Verifier::Results>, as that class
+is serializable.  This one is not.
 
 =head1 METHODS
 
