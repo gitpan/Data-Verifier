@@ -1,7 +1,7 @@
 package Data::Verifier;
 use Moose;
 
-our $VERSION = '0.23';
+our $VERSION = '0.24';
 
 use Data::Verifier::Field;
 use Data::Verifier::Filters;
@@ -90,7 +90,7 @@ sub verify {
         # Validate it
         if(defined($val) && $fprof->{type}) {
             my $cons = Moose::Util::TypeConstraints::find_type_constraint($fprof->{type});
-            die "Unknown type constraint '$cons'" unless defined($cons);
+            die "Unknown type constraint '$fprof->{type}'" unless defined($cons);
 
             if($fprof->{coerce}) {
                 $val = $cons->coerce($val);
@@ -244,11 +244,6 @@ Data::Verifier firstly intends to leverage Moose's type constraint system,
 which is significantly more powerful than anything I could create for the
 purposes of this module.  Secondly it aims to keep a fairly simple interface
 by leveraging the aforementioned type system to keep options to a minumum.
-
-=head1 SERIALIZATION
-
-Consult the documentation for L<Data::Verifier::Results>, as that class
-is serializable.  This one is not.
 
 =head1 METHODS
 
