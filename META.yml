@@ -20,11 +20,10 @@ no_index:
     - t
 requires:
   JSON::Any: 1.22
-  Moose: 0.89
-  MooseX::AttributeHelpers: 0.21
+  Moose: 0.93
   MooseX::Storage: 0.21
   Test::Exception: 0.27
   Try::Tiny: 0.02
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.25
+version: 0.26
