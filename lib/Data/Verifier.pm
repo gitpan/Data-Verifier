@@ -1,7 +1,7 @@
 package Data::Verifier;
 use Moose;
 
-our $VERSION = '0.27';
+our $VERSION = '0.28';
 
 use Data::Verifier::Field;
 use Data::Verifier::Filters;
@@ -380,7 +380,9 @@ Determines if this field is required for verification.
 =item B<type>
 
 The name of the Moose type constraint to use with verifying this field's
-value.
+value. Note, this will also accept an instance of
+L<Moose::Meta::TypeConstraint>, although it may not serialize properly as a
+result.
 
 =back
 
