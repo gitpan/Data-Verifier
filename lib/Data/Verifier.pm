@@ -1,7 +1,7 @@
 package Data::Verifier;
 use Moose;
 
-our $VERSION = '0.28';
+our $VERSION = '0.29';
 
 use Data::Verifier::Field;
 use Data::Verifier::Filters;
@@ -44,6 +44,16 @@ sub verify {
 
         my $val = $params->{$key};
 
+        my $oval = $val;
+
+        my $field = Data::Verifier::Field->new;
+        if(ref($val)) {
+            my @values = @{ $val };
+            $field->original_value(\@values);
+        } else {
+            $field->original_value($val);
+        }
+
         # Pass through global filters
         if($self->filters && defined $val) {
             $val = $self->_filter_value($self->filters, $val);
@@ -59,9 +69,12 @@ sub verify {
             $val = undef;
         }
 
-        my $field = Data::Verifier::Field->new(
-            original_value => $val
-        );
+        if(ref($val)) {
+            my @values = @{ $val };
+            $field->post_filter_value(\@values);
+        } else {
+            $field->post_filter_value($val);
+        }
 
         if($fprof->{required} && !defined($val)) {
             # Set required fields to undef, as they are missing
@@ -89,7 +102,8 @@ sub verify {
 
         # Validate it
         if(defined($val) && $fprof->{type}) {
-            my $cons = Moose::Util::TypeConstraints::find_type_constraint($fprof->{type});
+            my $cons = Moose::Util::TypeConstraints::find_or_parse_type_constraint($fprof->{type});
+
             die "Unknown type constraint '$fprof->{type}'" unless defined($cons);
 
             if($fprof->{coerce}) {
@@ -169,22 +183,28 @@ sub verify {
 }
 
 sub _filter_value {
-    my ($self, $filters, $value) = @_;
+    my ($self, $filters, $values) = @_;
     if(!ref($filters)) {
         $filters = [ $filters ];
+    }
+    if(!ref($values)) {
+        $values = [ $values ];
     }
 
     foreach my $f (@{ $filters }) {
 
-        if(ref($f)) {
-            $value = $value->$f($value);
-        } else {
-            die "Unknown filter: $f" unless Data::Verifier::Filters->can($f);
-            $value = Data::Verifier::Filters->$f($value);
+        foreach my $value (@{ $values }) {
+            if(ref($f)) {
+                $value = $value->$f($value);
+            } else {
+                die "Unknown filter: $f" unless Data::Verifier::Filters->can($f);
+                $value = Data::Verifier::Filters->$f($value);
+            }
         }
     }
 
-    return $value;
+    # Return an arrayref if we have multiple values or a scalar if we have one
+    scalar(@{ $values }) == 1 ? $values->[0] : $values;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -244,6 +264,24 @@ Data::Verifier firstly intends to leverage Moose's type constraint system,
 which is significantly more powerful than anything I could create for the
 purposes of this module.  Secondly it aims to keep a fairly simple interface
 by leveraging the aforementioned type system to keep options to a minumum.
+
+=head1 NOTES
+
+=head2 Multiple Values
+
+It should be noted that if you choose to make a param a C<Str> then validation
+will fail if multiple values are provided.  To allow multiple values you
+must use an C<ArrayRef[Str]>.
+
+=head2 Serialization
+
+Data::Verifier uses L<MooseX::Storage> to allow serialization of
+L<Data::Verifier::Results> objects.  You can use this to store results for
+validation across redirects.  Note, however, that the C<original_value>
+attribute is B<not> serialized.  Since you can coerce a value into anything
+it is not reasonable to expect to be able to serialize it.  Have a look at
+the C<original_value> or C<post_filter_value> in L<Data::Verifier::Results>
+if you want to know more.
 
 =head1 METHODS
 
