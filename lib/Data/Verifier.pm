@@ -1,7 +1,8 @@
 package Data::Verifier;
+BEGIN {
+  $Data::Verifier::VERSION = '0.41';
+}
 use Moose;
-
-our $VERSION = '0.40';
 
 use Data::Verifier::Field;
 use Data::Verifier::Filters;
@@ -504,13 +505,17 @@ Cory G Watson, C<< <gphat at cpan.org> >>
 
 =head1 CONTRIBUTORS
 
-J. Shirley
-
-Stevan Little
+Mike Eldridge
 
 George Hartzell
 
+Stevan Little
+
+Jason May
+
 Dennis Schön
+
+J. Shirley
 
 =head1 COPYRIGHT & LICENSE
 

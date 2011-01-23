@@ -1,19 +1,60 @@
-use inc::Module::Install;
 
-name     'Data-Verifier';
-all_from 'lib/Data/Verifier.pm';
-author   q{Cory G Watson <gphat@cpan.org>};
-license  'perl';
+use strict;
+use warnings;
 
-build_requires 'Test::More' => '0.88';
 
-requires 'JSON::Any' => '1.22';
-requires 'Moose' => '0.99';
-requires 'MooseX::Storage' => '0.25';
-requires 'Test::Exception' => '0.27';
-requires 'Try::Tiny' => '0.02';
 
-test_requires 'JSON::Any';
+use ExtUtils::MakeMaker 6.31;
 
-WriteAll;
+
+
+my %WriteMakefileArgs = (
+  'ABSTRACT' => 'Profile based data verification with Moose type constraints.',
+  'AUTHOR' => 'Cory G Watson <gphat@cpan.org>',
+  'BUILD_REQUIRES' => {
+    'Test::Exception' => '0',
+    'Test::More' => '0'
+  },
+  'CONFIGURE_REQUIRES' => {
+    'ExtUtils::MakeMaker' => '6.31'
+  },
+  'DISTNAME' => 'Data-Verifier',
+  'EXE_FILES' => [],
+  'LICENSE' => 'perl',
+  'NAME' => 'Data::Verifier',
+  'PREREQ_PM' => {
+    'JSON::Any' => '0',
+    'Moose' => '0',
+    'Moose::Util::TypeConstraints' => '0',
+    'MooseX::Storage' => '0',
+    'MooseX::Storage::Deferred' => '0',
+    'Scalar::Util' => '0',
+    'Try::Tiny' => '0'
+  },
+  'VERSION' => '0.41',
+  'test' => {
+    'TESTS' => 't/*.t'
+  }
+);
+
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
+
+
 

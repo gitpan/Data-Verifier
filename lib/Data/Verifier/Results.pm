@@ -1,4 +1,7 @@
 package Data::Verifier::Results;
+BEGIN {
+  $Data::Verifier::Results::VERSION = '0.41';
+}
 
 use Moose;
 use MooseX::Storage;
@@ -39,6 +42,12 @@ sub get_value {
     my $f = $self->get_field($key);
     return undef unless defined($f);
     return $f->value;
+}
+
+sub get_values {
+    my ($self, @keys) = @_;
+
+    return map { $self->get_value($_) } @keys;
 }
 
 sub is_invalid {
@@ -236,6 +245,11 @@ Get the post-filter value for the specified field.
 
 Returns the value for the specified field.  The value may be different from
 the one originally supplied due to filtering or coercion.
+
+=head2 get_values (@names)
+
+Same concept as C<get_value> but will return a list of respective values in
+the same order in which you provide the names.
 
 =head2 value_count
 

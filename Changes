@@ -1,5 +1,10 @@
 Revision history for Data-Verifier
 
+0.41      2011-01-23 09:28:00 America/Chicago
+  * Use Dist::Zilla
+  * Fix POD error
+  * Add get_values to Results (Jason May)
+
 0.40 Jan 17, 2010
   * Fix typo in POD (Jason May)
 

@@ -1,4 +1,7 @@
 package Data::Verifier::Field;
+BEGIN {
+  $Data::Verifier::Field::VERSION = '0.41';
+}
 use Moose;
 use MooseX::Storage;
 
@@ -123,6 +126,8 @@ The post check failed.
 =item B<type_constraint>
 
 The value did not pass the type constraint.
+
+=back
 
 =head1 METHODS
 

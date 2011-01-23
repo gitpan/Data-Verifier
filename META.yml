@@ -1,31 +1,27 @@
 ---
 abstract: 'Profile based data verification with Moose type constraints.'
 author:
-  - 'Cory G Watson, C<< <gphat at cpan.org> >>'
   - 'Cory G Watson <gphat@cpan.org>'
 build_requires:
-  ExtUtils::MakeMaker: 6.42
-  JSON::Any: 0
-  Test::More: 0.88
+  Test::Exception: 0
+  Test::More: 0
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
-distribution_type: module
-generated_by: 'Module::Install version 1.00'
+  ExtUtils::MakeMaker: 6.31
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.200001, CPAN::Meta::Converter version 2.102400'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Data-Verifier
-no_index:
-  directory:
-    - inc
-    - t
 requires:
-  JSON::Any: 1.22
-  Moose: 0.99
-  MooseX::Storage: 0.25
-  Test::Exception: 0.27
-  Try::Tiny: 0.02
+  JSON::Any: 0
+  Moose: 0
+  Moose::Util::TypeConstraints: 0
+  MooseX::Storage: 0
+  MooseX::Storage::Deferred: 0
+  Scalar::Util: 0
+  Try::Tiny: 0
 resources:
-  license: http://dev.perl.org/licenses/
-version: 0.40
+  repository: https://github.com/gphat/data-verifier
+version: 0.41

@@ -1,4 +1,7 @@
 package Data::Verifier::Filters;
+BEGIN {
+  $Data::Verifier::Filters::VERSION = '0.41';
+}
 use strict;
 
 sub collapse {
