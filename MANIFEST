@@ -5,6 +5,7 @@ META.json
 META.yml
 Makefile.PL
 README
+README.mkdn
 lib/Data/Verifier.pm
 lib/Data/Verifier/Field.pm
 lib/Data/Verifier/Filters.pm
@@ -19,6 +20,7 @@ t/load.t
 t/object.t
 t/post-check.t
 t/release-pod-syntax.t
+t/release-synopsis.t
 t/result-merge.t
 t/simple.t
 t/storage.t

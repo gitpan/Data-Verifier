@@ -25,4 +25,4 @@ requires:
   Try::Tiny: 0
 resources:
   repository: https://github.com/gphat/data-verifier
-version: 0.42
+version: 0.43

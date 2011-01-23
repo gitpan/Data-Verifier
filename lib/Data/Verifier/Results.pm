@@ -1,6 +1,6 @@
 package Data::Verifier::Results;
 BEGIN {
-  $Data::Verifier::Results::VERSION = '0.42';
+  $Data::Verifier::Results::VERSION = '0.43';
 }
 
 use Moose;
@@ -181,9 +181,9 @@ Data::Verifier::Results - Results of a Data::Verifier
             required    => 1,
             type        => 'Str',
             filters     => [ qw(collapse trim) ]
-        }
+        },
         age  => {
-            type        => 'Int';
+            type        => 'Int'
         },
         sign => {
             required    => 1,

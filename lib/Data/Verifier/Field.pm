@@ -1,6 +1,6 @@
 package Data::Verifier::Field;
 BEGIN {
-  $Data::Verifier::Field::VERSION = '0.42';
+  $Data::Verifier::Field::VERSION = '0.43';
 }
 use Moose;
 use MooseX::Storage;
@@ -56,9 +56,9 @@ Data::Verifier::Field - Field from a Data::Verifier profile
             required    => 1,
             type        => 'Str',
             filters     => [ qw(collapse trim) ]
-        }
+        },
         age  => {
-            type        => 'Int';
+            type        => 'Int'
         },
         sign => {
             required    => 1,
@@ -71,7 +71,7 @@ Data::Verifier::Field - Field from a Data::Verifier profile
     });
 
 
-    my $field = $results->get_field('name);
+    my $field = $results->get_field('name');
     say $field->value;
 
 =head1 ATTRIBUTES
