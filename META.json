@@ -22,6 +22,7 @@
       "runtime" : {
          "requires" : {
             "JSON::Any" : 0,
+            "JSON::XS" : 0,
             "Moose" : 0,
             "Moose::Util::TypeConstraints" : 0,
             "MooseX::Storage" : 0,
@@ -44,6 +45,6 @@
          "url" : "https://github.com/gphat/data-verifier"
       }
    },
-   "version" : "0.41"
+   "version" : "0.42"
 }
 

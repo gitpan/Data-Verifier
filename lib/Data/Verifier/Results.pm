@@ -1,6 +1,6 @@
 package Data::Verifier::Results;
 BEGIN {
-  $Data::Verifier::Results::VERSION = '0.41';
+  $Data::Verifier::Results::VERSION = '0.42';
 }
 
 use Moose;

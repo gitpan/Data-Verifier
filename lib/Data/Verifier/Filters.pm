@@ -1,6 +1,6 @@
 package Data::Verifier::Filters;
 BEGIN {
-  $Data::Verifier::Filters::VERSION = '0.41';
+  $Data::Verifier::Filters::VERSION = '0.42';
 }
 use strict;
 
