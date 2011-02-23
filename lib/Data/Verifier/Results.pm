@@ -1,6 +1,6 @@
 package Data::Verifier::Results;
 BEGIN {
-  $Data::Verifier::Results::VERSION = '0.44';
+  $Data::Verifier::Results::VERSION = '0.45';
 }
 use Moose;
 use MooseX::Storage;
@@ -103,6 +103,7 @@ sub is_wrong {
     return 0;
 }
 
+
 sub merge {
     my ($self, $other) = @_;
 
@@ -194,7 +195,7 @@ Data::Verifier::Results - Results of a Data::Verifier verify
 
 =head1 VERSION
 
-version 0.44
+version 0.45
 
 =head1 SYNOPSIS
 
@@ -310,6 +311,10 @@ Returns true if the field is valid.
 Returns true if the value was required and is missing or if the value did not
 pass it's type constraint.  This is a one-stop method for determining if the
 field in question is "wrong".
+
+=head2 merge ($other_results_object)
+
+Merge an existing Data::Verifier::Results object into this one.
 
 =head2 invalid_count
 
