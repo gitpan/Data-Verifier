@@ -1,8 +1,12 @@
 package Data::Verifier::Filters;
 BEGIN {
-  $Data::Verifier::Filters::VERSION = '0.43';
+  $Data::Verifier::Filters::VERSION = '0.44';
 }
 use strict;
+use warnings;
+
+# ABSTRACT: Filters for values
+
 
 sub collapse {
     my ($self, $val) = @_;
@@ -11,6 +15,7 @@ sub collapse {
     return $val;
 }
 
+
 sub flatten {
     my ($self, $val) = @_;
 
@@ -18,11 +23,13 @@ sub flatten {
     return $val;
 }
 
+
 sub lower {
     my ($self, $val) = @_;
 
     return lc($val);
 }
+
 
 sub trim {
     my ($self, $val) = @_;
@@ -32,6 +39,7 @@ sub trim {
     return $val;
 }
 
+
 sub upper {
     my ($self, $val) = @_;
 
@@ -40,9 +48,17 @@ sub upper {
 
 1;
 
+
+
+=pod
+
 =head1 NAME
 
 Data::Verifier::Filters - Filters for values
+
+=head1 VERSION
+
+version 0.44
 
 =head1 SYNOPSIS
 
@@ -74,11 +90,7 @@ filters:
   });
   $dv->get_value('name'); # No whitespace!
 
-=head1 FILTERS
-
-These filters are supplied free of charge.  Since they are common, it made
-sense to include them.  Patches are welcome for other filters that might be
-used commonly.
+=head1 METHODS
 
 =head2 collapse
 
@@ -102,14 +114,17 @@ Converts the value to uppercase.
 
 =head1 AUTHOR
 
-Cory G Watson, C<< <gphat at cpan.org> >>
+Cory G Watson <gphat@cpan.org>
 
-=head1 COPYRIGHT & LICENSE
+=head1 COPYRIGHT AND LICENSE
 
-Copyright 2009 Cold Hard Code, LLC
+This software is copyright (c) 2011 by Cold Hard Code, LLC.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
-See http://dev.perl.org/licenses/ for more information.
+=cut
+
+
+__END__
+

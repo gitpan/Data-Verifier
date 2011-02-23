@@ -4,7 +4,7 @@
       "Cory G Watson <gphat@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.200001, CPAN::Meta::Converter version 2.102400",
+   "generated_by" : "Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.102400",
    "license" : [
       "perl_5"
    ],
@@ -45,6 +45,6 @@
          "url" : "https://github.com/gphat/data-verifier"
       }
    },
-   "version" : "0.43"
+   "version" : "0.44"
 }
 

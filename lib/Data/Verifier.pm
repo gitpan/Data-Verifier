@@ -1,8 +1,10 @@
 package Data::Verifier;
 BEGIN {
-  $Data::Verifier::VERSION = '0.43';
+  $Data::Verifier::VERSION = '0.44';
 }
 use Moose;
+
+# ABSTRACT: Profile based data verification with Moose type constraints.
 
 use Data::Verifier::Field;
 use Data::Verifier::Filters;
@@ -11,17 +13,22 @@ use Moose::Util::TypeConstraints;
 use Scalar::Util qw(blessed);
 use Try::Tiny;
 
+
+
 has 'filters' => (
     is => 'ro',
     isa => 'ArrayRef[Str|CodeRef]',
     default => sub { [] }
 );
 
+
+
 has 'profile' => (
     is => 'ro',
     isa => 'HashRef[HashRef]',
     required => 1
 );
+
 
 sub coercion {
     my %params = @_;
@@ -225,16 +232,17 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 
-__END__
+
+
+=pod
 
 =head1 NAME
 
 Data::Verifier - Profile based data verification with Moose type constraints.
 
-=head1 DESCRIPTION
+=head1 VERSION
 
-Data::Verifier allows you verify data (such as web forms, which was the
-original idea) by leveraging the power of Moose's type constraint system.
+version 0.44
 
 =head1 SYNOPSIS
 
@@ -274,6 +282,11 @@ original idea) by leveraging the power of Moose's type constraint system.
     $results->get_original_value('name'); # Unchanged, original value
     $results->get_value('name'); # Filtered, valid value
     $results->get_value('age');  # undefined, as it's invalid
+
+=head1 DESCRIPTION
+
+Data::Verifier allows you verify data (such as web forms, which was the
+original idea) by leveraging the power of Moose's type constraint system.
 
 =head1 MOTIVATION
 
@@ -315,28 +328,46 @@ the name of a method to call on the object. In order to maintain consistency
 with the hash reference case, missing methods pass an 'undef' value into the
 verification process.
 
-=head1 METHODS
+=head2 Execution Order
 
-=head2 coercion
+It may be important to understand the order in which the various steps of
+verification are performed:
 
-Define a coercion to use for verification.  This will not define a global
-Moose type coercion, but is instead just a single coercion to apply to a 
-specific entity.
+=over 4
 
-    my $verifier = Data::Verifier->new(
-        profile => {
-            a_string => {
-                type     => 'Str',
-                coercion => Data::Verifier::coercion(
-                    from => 'Int', 
-                        via => sub { (qw[ one two three ])[ ($_ - 1) ] }
-                ),
-            },
-        }
-    );
+=item Global Filters
 
-Now, after C<a_string> is processed by Data::Verifier, the results will 
-return the coerced and validated value.
+Any global filters in the profile are executed.
+
+=item Per-Field Filters
+
+Any per-field filters are executed.
+
+=item Empty String Check
+
+If the value of the field is an empty string then it is changed to an undef.
+
+=item Required Check
+
+The parameter must now be defined if it is set as required.
+
+=item Length Check
+
+Minimum then maximum length is checked.
+
+=item Type Check (w/Coercion)
+
+At this point the type will be checked after an optional coercion.
+
+=item Depedency Checks
+
+If this field has dependents then those will not be processed.
+
+=item Post Check
+
+If the field has a post check it will now be executed.
+
+=back
 
 =head1 ATTRIBUTES
 
@@ -456,50 +487,25 @@ result.
 
 =back
 
-=head1 EXECUTION ORDER
+=head1 METHODS
 
-It may be important to understand the order in which the various steps of
-verification are performed:
+=head2 coercion
 
-=over 4
+Define a coercion to use for verification.  This will not define a global
+Moose type coercion, but is instead just a single coercion to apply to a 
+specific entity.
 
-=item Global Filters
-
-Any global filters in the profile are executed.
-
-=item Per-Field Filters
-
-Any per-field filters are executed.
-
-=item Empty String Check
-
-If the value of the field is an empty string then it is changed to an undef.
-
-=item Required Check
-
-The parameter must now be defined if it is set as required.
-
-=item Length Check
-
-Minimum then maximum length is checked.
-
-=item Type Check (w/Coercion)
-
-At this point the type will be checked after an optional coercion.
-
-=item Depedency Checks
-
-If this field has dependents then those will not be processed.
-
-=item Post Check
-
-If the field has a post check it will now be executed.
-
-=back
-
-=head1 AUTHOR
-
-Cory G Watson, C<< <gphat at cpan.org> >>
+    my $verifier = Data::Verifier->new(
+        profile => {
+            a_string => {
+                type     => 'Str',
+                coercion => Data::Verifier::coercion(
+                    from => 'Int', 
+                        via => sub { (qw[ one two three ])[ ($_ - 1) ] }
+                ),
+            },
+        }
+    );
 
 =head1 CONTRIBUTORS
 
@@ -515,13 +521,20 @@ Dennis Schön
 
 J. Shirley
 
-=head1 COPYRIGHT & LICENSE
+=head1 AUTHOR
 
-Copyright 2009 Cold Hard Code, LLC
+Cory G Watson <gphat@cpan.org>
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+=head1 COPYRIGHT AND LICENSE
 
-See http://dev.perl.org/licenses/ for more information.
+This software is copyright (c) 2011 by Cold Hard Code, LLC.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+
+__END__
+
 

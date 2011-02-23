@@ -1,11 +1,11 @@
 
 
 This archive contains the distribution Data-Verifier,
-version 0.43:
+version 0.44:
 
   Profile based data verification with Moose type constraints.
 
-This software is copyright (c) 2010 by Cory G Watson.
+This software is copyright (c) 2011 by Cold Hard Code, LLC.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

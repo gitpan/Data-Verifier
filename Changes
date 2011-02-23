@@ -1,5 +1,8 @@
 Revision history for Data-Verifier
 
+0.44 Feb 23 2011
+  * Use Pod::Weaver
+
 0.43 Jan 23 2011
   * Various fixes to the synopses
   * More dzil love

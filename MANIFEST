@@ -26,3 +26,4 @@ t/simple.t
 t/storage.t
 t/toomany.t
 t/types.t
+weaver.ini

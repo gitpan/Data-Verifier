@@ -1,11 +1,14 @@
 package Data::Verifier::Field;
 BEGIN {
-  $Data::Verifier::Field::VERSION = '0.43';
+  $Data::Verifier::Field::VERSION = '0.44';
 }
 use Moose;
 use MooseX::Storage;
 
 with 'MooseX::Storage::Deferred';
+
+# ABSTRACT: Field from a Data::Verifier profile
+
 
 has original_value => (
     is => 'rw',
@@ -13,11 +16,13 @@ has original_value => (
     predicate => 'has_original_value'
 );
 
+
 has post_filter_value => (
     is => 'rw',
     isa => 'Maybe[Str|ArrayRef]',
     predicate => 'has_post_filter_value'
 );
+
 
 has reason => (
     is => 'rw',
@@ -25,11 +30,13 @@ has reason => (
     predicate => 'has_reason'
 );
 
+
 has valid => (
     is => 'rw',
     isa => 'Bool',
     default => 1
 );
+
 
 has value => (
     traits => [ 'DoNotSerialize' ],
@@ -41,11 +48,17 @@ has value => (
 __PACKAGE__->meta->make_immutable;
 
 1;
-__END__
+
+
+=pod
 
 =head1 NAME
 
 Data::Verifier::Field - Field from a Data::Verifier profile
+
+=head1 VERSION
+
+version 0.44
 
 =head1 SYNOPSIS
 
@@ -72,7 +85,14 @@ Data::Verifier::Field - Field from a Data::Verifier profile
 
 
     my $field = $results->get_field('name');
-    say $field->value;
+    print $field->value;
+
+=head1 DESCRIPTION
+
+Data::Verifier::Field provides all post-verification information on a given
+field.
+
+=cut
 
 =head1 ATTRIBUTES
 
@@ -90,16 +110,6 @@ will survive serialization whereas value will not.
 
 If this field is invalid then this attribute should contain a "reason".  Out
 of the box it will always contain a string.  One of:
-
-=head2 valid
-
-Boolean value representing this fields validity.
-
-=head2 value
-
-The value of this field.  This will not be present if serialized, as it could
-be any value, some of which we may not know how to Serialize.  See
-C<original_value>.
 
 =over 4
 
@@ -129,7 +139,29 @@ The value did not pass the type constraint.
 
 =back
 
+=head2 valid
+
+Boolean value representing this fields validity.
+
+=head2 value
+
+The value of this field.  This will not be present if serialized, as it could
+be any value, some of which we may not know how to Serialize.  See
+C<original_value>.
+
 =head1 METHODS
+
+=head2 has_original_value
+
+Predicate that returns true if this field has an original value.
+
+=head2 has_post_filter_value
+
+Predicate that returns true if this field has a post filter value.
+
+=head2 has_reason
+
+Predicate that returns true if this field has a reason.
 
 =head2 clear_value
 
@@ -137,14 +169,17 @@ Clears the value attribute.
 
 =head1 AUTHOR
 
-Cory G Watson, C<< <gphat at cpan.org> >>
+Cory G Watson <gphat@cpan.org>
 
-=head1 COPYRIGHT & LICENSE
+=head1 COPYRIGHT AND LICENSE
 
-Copyright 2009 Cold Hard Code, LLC
+This software is copyright (c) 2011 by Cold Hard Code, LLC.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
-See http://dev.perl.org/licenses/ for more information.
+=cut
+
+
+__END__
+
