@@ -1,6 +1,6 @@
 package Data::Verifier::Field;
 BEGIN {
-  $Data::Verifier::Field::VERSION = '0.45';
+  $Data::Verifier::Field::VERSION = '0.46';
 }
 use Moose;
 use MooseX::Storage;
@@ -12,14 +12,14 @@ with 'MooseX::Storage::Deferred';
 
 has original_value => (
     is => 'rw',
-    isa => 'Maybe[Str|ArrayRef]',
+    isa => 'Maybe[Str|ArrayRef|HashRef[Str]]',
     predicate => 'has_original_value'
 );
 
 
 has post_filter_value => (
     is => 'rw',
-    isa => 'Maybe[Str|ArrayRef]',
+    isa => 'Maybe[Str|ArrayRef|HashRef[Str]]',
     predicate => 'has_post_filter_value'
 );
 
@@ -58,7 +58,7 @@ Data::Verifier::Field - Field from a Data::Verifier profile
 
 =head1 VERSION
 
-version 0.45
+version 0.46
 
 =head1 SYNOPSIS
 
@@ -91,8 +91,6 @@ version 0.45
 
 Data::Verifier::Field provides all post-verification information on a given
 field.
-
-=cut
 
 =head1 ATTRIBUTES
 

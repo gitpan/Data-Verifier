@@ -17,6 +17,7 @@ t/dependents.t
 t/filters.t
 t/lengths.t
 t/load.t
+t/multiples.t
 t/object.t
 t/post-check.t
 t/release-pod-syntax.t
