@@ -1,6 +1,6 @@
 package Data::Verifier;
 BEGIN {
-  $Data::Verifier::VERSION = '0.46';
+  $Data::Verifier::VERSION = '0.47';
 }
 use Moose;
 
@@ -47,9 +47,9 @@ sub verify {
 
     my $blessed_params = blessed($params);
 
-    my $skip_string_checks = 0;
     my @post_checks = ();
     foreach my $key (keys(%{ $profile })) {
+        my $skip_string_checks = 0;
 
         # Get the profile part that is pertinent to this field
         my $fprof = $profile->{$key};
@@ -323,7 +323,7 @@ Data::Verifier - Profile based data verification with Moose type constraints.
 
 =head1 VERSION
 
-version 0.46
+version 0.47
 
 =head1 SYNOPSIS
 

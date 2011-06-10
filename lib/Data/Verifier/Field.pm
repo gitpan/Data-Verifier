@@ -1,6 +1,6 @@
 package Data::Verifier::Field;
 BEGIN {
-  $Data::Verifier::Field::VERSION = '0.46';
+  $Data::Verifier::Field::VERSION = '0.47';
 }
 use Moose;
 use MooseX::Storage;
@@ -58,7 +58,7 @@ Data::Verifier::Field - Field from a Data::Verifier profile
 
 =head1 VERSION
 
-version 0.46
+version 0.47
 
 =head1 SYNOPSIS
 
