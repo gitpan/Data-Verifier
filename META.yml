@@ -15,8 +15,6 @@ meta-spec:
   version: 1.4
 name: Data-Verifier
 requires:
-  JSON::Any: 0
-  JSON::XS: 0
   Moose: 0
   Moose::Util::TypeConstraints: 0
   MooseX::Storage: 0
@@ -24,5 +22,6 @@ requires:
   Scalar::Util: 0
   Try::Tiny: 0
 resources:
-  repository: https://github.com/gphat/data-verifier
-version: 0.47
+  homepage: http://github.com/gphat/data-verifier
+  repository: http://github.com/gphat/data-verifier
+version: 0.48

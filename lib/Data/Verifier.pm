@@ -1,6 +1,6 @@
 package Data::Verifier;
 BEGIN {
-  $Data::Verifier::VERSION = '0.47';
+  $Data::Verifier::VERSION = '0.48';
 }
 use Moose;
 
@@ -323,7 +323,7 @@ Data::Verifier - Profile based data verification with Moose type constraints.
 
 =head1 VERSION
 
-version 0.47
+version 0.48
 
 =head1 SYNOPSIS
 

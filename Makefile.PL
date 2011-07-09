@@ -23,8 +23,6 @@ my %WriteMakefileArgs = (
   'LICENSE' => 'perl',
   'NAME' => 'Data::Verifier',
   'PREREQ_PM' => {
-    'JSON::Any' => '0',
-    'JSON::XS' => '0',
     'Moose' => '0',
     'Moose::Util::TypeConstraints' => '0',
     'MooseX::Storage' => '0',
@@ -32,7 +30,7 @@ my %WriteMakefileArgs = (
     'Scalar::Util' => '0',
     'Try::Tiny' => '0'
   },
-  'VERSION' => '0.47',
+  'VERSION' => '0.48',
   'test' => {
     'TESTS' => 't/*.t'
   }
