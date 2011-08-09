@@ -4,7 +4,7 @@ Data::Verifier - Profile based data verification with Moose type constraints.
 
 # VERSION
 
-version 0.49
+version 0.50
 
 # SYNOPSIS
 
@@ -323,11 +323,18 @@ specific entity.
         }
     );
 
+## verify (\%parameters)
+
+Call this method and provide the parameters you are checking.  The results
+will be provided to you as a [Data::Verifier::Results](http://search.cpan.org/perldoc?Data::Verifier::Results) object.
+
 # CONTRIBUTORS
 
 Mike Eldridge
 
 George Hartzell
+
+Tomohiro Hosaka
 
 Stevan Little
 

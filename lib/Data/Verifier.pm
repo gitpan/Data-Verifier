@@ -1,6 +1,6 @@
 package Data::Verifier;
 BEGIN {
-  $Data::Verifier::VERSION = '0.49';
+  $Data::Verifier::VERSION = '0.50';
 }
 use Moose;
 
@@ -38,6 +38,7 @@ sub coercion {
         ]
     );
 }
+
 
 sub verify {
     my ($self, $params, $members) = @_;
@@ -213,7 +214,7 @@ sub verify {
         # check for dependents
         my $dependent = $fprof->{dependent};
         my $dep_results;
-        if($dependent) {
+        if($dependent and !$members) {
             # Create a new verifier for use with the dependents
             my $dep_verifier = Data::Verifier->new(
                 filters => $self->filters,
@@ -323,7 +324,7 @@ Data::Verifier - Profile based data verification with Moose type constraints.
 
 =head1 VERSION
 
-version 0.49
+version 0.50
 
 =head1 SYNOPSIS
 
@@ -650,11 +651,18 @@ specific entity.
         }
     );
 
+=head2 verify (\%parameters)
+
+Call this method and provide the parameters you are checking.  The results
+will be provided to you as a L<Data::Verifier::Results> object.
+
 =head1 CONTRIBUTORS
 
 Mike Eldridge
 
 George Hartzell
+
+Tomohiro Hosaka
 
 Stevan Little
 
@@ -679,5 +687,4 @@ the same terms as the Perl 5 programming language system itself.
 
 
 __END__
-
 
