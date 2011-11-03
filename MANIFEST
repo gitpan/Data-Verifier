@@ -6,6 +6,14 @@ META.yml
 Makefile.PL
 README
 README.mkdn
+inc/Module/Install.pm
+inc/Module/Install/Base.pm
+inc/Module/Install/Can.pm
+inc/Module/Install/Fetch.pm
+inc/Module/Install/Makefile.pm
+inc/Module/Install/Metadata.pm
+inc/Module/Install/Win32.pm
+inc/Module/Install/WriteAll.pm
 lib/Data/Verifier.pm
 lib/Data/Verifier/Field.pm
 lib/Data/Verifier/Filters.pm
@@ -14,6 +22,7 @@ t/array.t
 t/coderef.t
 t/coerce.t
 t/dependents.t
+t/extra/storage.t
 t/filters.t
 t/lengths.t
 t/load.t

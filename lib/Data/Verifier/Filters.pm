@@ -1,6 +1,6 @@
 package Data::Verifier::Filters;
-BEGIN {
-  $Data::Verifier::Filters::VERSION = '0.50';
+{
+  $Data::Verifier::Filters::VERSION = '0.51';
 }
 use strict;
 use warnings;
@@ -10,6 +10,7 @@ use warnings;
 
 sub collapse {
     my ($self, $val) = @_;
+    return $val if not defined $val;
 
     $val =~ s/\s+/ /g;
     return $val;
@@ -18,6 +19,7 @@ sub collapse {
 
 sub flatten {
     my ($self, $val) = @_;
+    return $val if not defined $val;
 
     $val =~ s/\s//g;
     return $val;
@@ -26,6 +28,7 @@ sub flatten {
 
 sub lower {
     my ($self, $val) = @_;
+    return $val if not defined $val;
 
     return lc($val);
 }
@@ -33,6 +36,7 @@ sub lower {
 
 sub trim {
     my ($self, $val) = @_;
+    return $val if not defined $val;
 
     $val =~ s/^\s+|\s+$//g;
 
@@ -42,6 +46,7 @@ sub trim {
 
 sub upper {
     my ($self, $val) = @_;
+    return $val if not defined $val;
 
     return uc($val);
 }
@@ -58,7 +63,7 @@ Data::Verifier::Filters - Filters for values
 
 =head1 VERSION
 
-version 0.50
+version 0.51
 
 =head1 SYNOPSIS
 
