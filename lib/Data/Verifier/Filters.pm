@@ -1,6 +1,6 @@
 package Data::Verifier::Filters;
 {
-  $Data::Verifier::Filters::VERSION = '0.51';
+  $Data::Verifier::Filters::VERSION = '0.52';
 }
 use strict;
 use warnings;
@@ -63,7 +63,7 @@ Data::Verifier::Filters - Filters for values
 
 =head1 VERSION
 
-version 0.51
+version 0.52
 
 =head1 SYNOPSIS
 
