@@ -8,7 +8,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.110440'
+generated_by: 'Dist::Zilla version 4.300010, CPAN::Meta::Converter version 2.120630'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -26,6 +26,7 @@ requires:
   strict: 0
   warnings: 0
 resources:
+  bugtracker: https://github.com/gphat/data-verifier/issues
   homepage: https://github.com/gphat/data-verifier
-  repository: https://github.com/gphat/data-verifier
+  repository: https://github.com/gphat/data-verifier.git
 version: 0.51

@@ -4,7 +4,7 @@
       "Cory G Watson <gphat@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.110440",
+   "generated_by" : "Dist::Zilla version 4.300010, CPAN::Meta::Converter version 2.120630",
    "license" : [
       "perl_5"
    ],
@@ -21,31 +21,34 @@
       },
       "runtime" : {
          "requires" : {
-            "JSON::Any" : 0,
-            "JSON::XS" : 0,
-            "Moose" : 0,
-            "Moose::Util::TypeConstraints" : 0,
-            "MooseX::Storage" : 0,
-            "MooseX::Storage::Deferred" : 0,
-            "Scalar::Util" : 0,
-            "Try::Tiny" : 0,
-            "strict" : 0,
-            "warnings" : 0
+            "JSON::Any" : "0",
+            "JSON::XS" : "0",
+            "Moose" : "0",
+            "Moose::Util::TypeConstraints" : "0",
+            "MooseX::Storage" : "0",
+            "MooseX::Storage::Deferred" : "0",
+            "Scalar::Util" : "0",
+            "Try::Tiny" : "0",
+            "strict" : "0",
+            "warnings" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "Test::Exception" : 0,
-            "Test::More" : 0
+            "Test::Exception" : "0",
+            "Test::More" : "0"
          }
       }
    },
    "release_status" : "stable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/gphat/data-verifier/issues"
+      },
       "homepage" : "https://github.com/gphat/data-verifier",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/gphat/data-verifier",
+         "url" : "https://github.com/gphat/data-verifier.git",
          "web" : "https://github.com/gphat/data-verifier"
       }
    },
