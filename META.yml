@@ -29,4 +29,4 @@ resources:
   bugtracker: https://github.com/gphat/data-verifier/issues
   homepage: https://github.com/gphat/data-verifier
   repository: https://github.com/gphat/data-verifier.git
-version: 0.52
+version: 0.53

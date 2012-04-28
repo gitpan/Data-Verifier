@@ -1,8 +1,9 @@
 Revision history for Data-Verifier
 
-0.52 Apr 27 2012
+0.53 Apr 28 2012
+  * POD fix (John Anderson)
 
-0.51 Apr 27 2012
+0.52 Apr 27 2012
   * POD fixes
   * Add derived fields
 

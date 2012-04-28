@@ -1,6 +1,6 @@
 package Data::Verifier;
 {
-  $Data::Verifier::VERSION = '0.52';
+  $Data::Verifier::VERSION = '0.53';
 }
 use Moose;
 
@@ -365,7 +365,7 @@ Data::Verifier - Profile based data verification with Moose type constraints.
 
 =head1 VERSION
 
-version 0.52
+version 0.53
 
 =head1 SYNOPSIS
 
@@ -534,7 +534,7 @@ At this point the type will be checked after an optional coercion.
 
 =item Dependency Checks
 
-If this field has dependents then those will not be processed.
+If this field has dependents then those will now be processed.
 
 =item Post Check
 
