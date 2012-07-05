@@ -1,6 +1,6 @@
 package Data::Verifier::Results;
 {
-  $Data::Verifier::Results::VERSION = '0.53';
+  $Data::Verifier::Results::VERSION = '0.54';
 }
 use Moose;
 use MooseX::Storage;
@@ -195,7 +195,7 @@ Data::Verifier::Results - Results of a Data::Verifier verify
 
 =head1 VERSION
 
-version 0.53
+version 0.54
 
 =head1 SYNOPSIS
 

@@ -9,6 +9,7 @@ README.mkdn
 lib/Data/Verifier.pm
 lib/Data/Verifier/Field.pm
 lib/Data/Verifier/Filters.pm
+lib/Data/Verifier/Nested.pm
 lib/Data/Verifier/Results.pm
 t/array.t
 t/coderef.t
@@ -19,6 +20,7 @@ t/filters.t
 t/lengths.t
 t/load.t
 t/multiples.t
+t/nested.t
 t/object.t
 t/post-check.t
 t/release-pod-syntax.t
