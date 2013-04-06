@@ -4,7 +4,7 @@ Data::Verifier - Profile based data verification with Moose type constraints.
 
 # VERSION
 
-version 0.55
+version 0.56
 
 # SYNOPSIS
 
@@ -400,6 +400,8 @@ Jason May
 Dennis Schön
 
 J. Shirley
+
+Wallace Reis
 
 # AUTHOR
 

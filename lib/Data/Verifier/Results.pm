@@ -1,6 +1,6 @@
 package Data::Verifier::Results;
 {
-  $Data::Verifier::Results::VERSION = '0.55';
+  $Data::Verifier::Results::VERSION = '0.56';
 }
 use Moose;
 use MooseX::Storage;
@@ -195,7 +195,7 @@ Data::Verifier::Results - Results of a Data::Verifier verify
 
 =head1 VERSION
 
-version 0.55
+version 0.56
 
 =head1 SYNOPSIS
 
@@ -244,7 +244,7 @@ serializing Result objects and using them to refill forms or something.
 =head1 INTERNALS
 
 This module has a hashref attribute C<fields>.  The keys are the names of the
-fields from the profile.  The keys are are either C<undef> or a
+fields from the profile.  The corresponding values are are either C<undef> or a
 L<Data::Verifier::Field> object.
 
 The B<only> keys that will be populated in the Result object are those that were

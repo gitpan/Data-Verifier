@@ -1,6 +1,6 @@
 package Data::Verifier::Nested;
 {
-  $Data::Verifier::Nested::VERSION = '0.55';
+  $Data::Verifier::Nested::VERSION = '0.56';
 }
 use Moose;
 
@@ -108,7 +108,7 @@ Data::Verifier::Nested - Nested profile based data verification with Moose type 
 
 =head1 VERSION
 
-version 0.55
+version 0.56
 
 =head1 SYNOPSIS
 
